@@ -1,7 +1,6 @@
 # lab 2 Rapid Prototyping Architecture / Requirements
 
 ## 1. Project Structure
-
 lab2_Rapid_Prototyping/
 ├── src/
 │   ├── main.java
