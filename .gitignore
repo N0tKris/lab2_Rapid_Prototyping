@@ -1,0 +1,43 @@
+# -------------------------
+# Python
+# -------------------------
+venv/
+__pycache__/
+*.pyc
+
+# -------------------------
+# Node / Frontend
+# -------------------------
+node_modules/
+dist/
+build/
+*.log
+
+# -------------------------
+# Java / Maven
+# -------------------------
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# IntelliJ / VSCode
+.idea/
+*.iml
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# -------------------------
+# Logs
+# -------------------------
+*.log
+
+# -------------------------
+# Environment / Secrets
+# -------------------------
+.env
+*.properties.local
