@@ -1,13 +1,15 @@
 # lab 2 Rapid Prototyping Architecture / Requirements
 
 ## 1. Project Structure
+```
 lab2_Rapid_Prototyping/
-├── src/
-│   ├── main.java
-│   ├── logic.java
-│   └── db.java
-├── catalog.csv
-└── architecture.md
+│   src/
+│   │   main.java
+│   │   logic.java
+│   │   db.java
+│   catalog.csv
+└───   architecture.md
+```
 
 ## 2. Tools & Languages
 Programming Language: Java
