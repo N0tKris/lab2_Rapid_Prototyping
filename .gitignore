@@ -62,3 +62,6 @@ build/
 *.tmp
 *.swp
 *.swo
+
+# Ignore Windows ZoneIdentifier files
+*Zone.Identifier
