@@ -23,8 +23,8 @@ public class CatalogService {
         System.out.println("Reading CSV from: " + file.getAbsolutePath());
         
         if (!file.exists()) {
-            System.out.println("CSV file not found, creating with sample data...");
-            createSampleData();
+            System.out.println("CSV file not found.");
+            
         }
         
         try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
@@ -135,21 +135,5 @@ public class CatalogService {
         return item.getName() != null && !item.getName().trim().isEmpty() &&
                item.getDescription() != null && !item.getDescription().trim().isEmpty();
     }
-
-    /**
-     * Create sample data if CSV doesn't exist
-     */
-    private void createSampleData() {
-        try (PrintWriter pw = new PrintWriter(new FileWriter(CSV_FILE))) {
-            pw.println("ID,Name,Description");
-            pw.println("1,Laptop,Dell XPS 15 - High performance laptop");
-            pw.println("2,Mouse,Logitech MX Master 3 - Wireless mouse");
-            pw.println("3,Keyboard,Mechanical keyboard with RGB lighting");
-            pw.println("4,Monitor,27-inch 4K display");
-            pw.println("5,Headphones,Sony WH-1000XM4 - Noise cancelling");
-            System.out.println("Created sample CSV data");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    
 }
