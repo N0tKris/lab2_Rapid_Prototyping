@@ -9,25 +9,59 @@ import java.util.List;
 
 @Service
 public class CatalogService {
-    // Path to CSV file (relative to where the backend runs - the project root)
-    private static final String CSV_FILE = "../catalog.csv";
+    // CSV file name (searches common locations). The service will look for
+    // a `catalog.csv` file in the current working directory (where the JVM
+    // was started) and then in the parent directory. If not present it will
+    // create a new file with a header in the working directory.
+    private static final String CSV_FILENAME = "catalog.csv";
     private static final String CSV_DELIMITER = ",";
+
+    private java.nio.file.Path resolveCsvPath() throws java.io.IOException {
+        java.nio.file.Path cwd = java.nio.file.Paths.get("").toAbsolutePath();
+        java.nio.file.Path p1 = cwd.resolve(CSV_FILENAME);
+        if (java.nio.file.Files.exists(p1)) {
+            return p1;
+        }
+        // try parent (useful when running from repo root and backend is in subfolder)
+        java.nio.file.Path parent = cwd.getParent();
+        if (parent != null) {
+            java.nio.file.Path p2 = parent.resolve(CSV_FILENAME);
+            if (java.nio.file.Files.exists(p2)) {
+                return p2;
+            }
+        }
+        // try backend directory (in case jar runs with repo root as cwd)
+        java.nio.file.Path backendPath = cwd.resolve("backend").resolve(CSV_FILENAME);
+        if (java.nio.file.Files.exists(backendPath)) {
+            return backendPath;
+        }
+        // not found: default to creating/using p1 (cwd/catalog.csv)
+        // ensure parent dirs exist and create file with header
+        java.nio.file.Files.createDirectories(p1.getParent() == null ? java.nio.file.Paths.get(".") : p1.getParent());
+        if (!java.nio.file.Files.exists(p1)) {
+            try (java.io.PrintWriter pw = new java.io.PrintWriter(java.nio.file.Files.newBufferedWriter(p1))) {
+                pw.println("ID,Name,Description");
+            }
+        }
+        return p1;
+    }
 
     /**
      * Milestone 1: Read all items from CSV file and parse into list of objects
      */
     public List<CatalogItem> getAllItems() {
         List<CatalogItem> items = new ArrayList<>();
-        File file = new File(CSV_FILE);
-        
-        System.out.println("Reading CSV from: " + file.getAbsolutePath());
-        
-        if (!file.exists()) {
-            System.out.println("CSV file not found.");
-            
+        java.nio.file.Path csvPath;
+        try {
+            csvPath = resolveCsvPath();
+        } catch (java.io.IOException e) {
+            System.err.println("Error resolving CSV path: " + e.getMessage());
+            e.printStackTrace();
+            return items;
         }
-        
-        try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
+        System.out.println("Reading CSV from: " + csvPath.toAbsolutePath());
+
+        try (BufferedReader br = java.nio.file.Files.newBufferedReader(csvPath)) {
             String line;
             boolean isHeader = true;
             while ((line = br.readLine()) != null) {
@@ -114,14 +148,17 @@ public class CatalogService {
      * Milestone 4: Save all items back to CSV file
      */
     private void saveAllItems(List<CatalogItem> items) {
-        try (PrintWriter pw = new PrintWriter(new FileWriter(CSV_FILE))) {
-            pw.println("ID,Name,Description");
-            for (CatalogItem item : items) {
-                pw.println(item.getId() + CSV_DELIMITER + 
-                          item.getName() + CSV_DELIMITER + 
-                          item.getDescription());
+        try {
+            java.nio.file.Path csvPath = resolveCsvPath();
+            try (java.io.PrintWriter pw = new java.io.PrintWriter(java.nio.file.Files.newBufferedWriter(csvPath))) {
+                pw.println("ID,Name,Description");
+                for (CatalogItem item : items) {
+                    pw.println(item.getId() + CSV_DELIMITER +
+                              item.getName() + CSV_DELIMITER +
+                              item.getDescription());
+                }
             }
-            System.out.println("Saved " + items.size() + " items to CSV");
+            System.out.println("Saved " + items.size() + " items to CSV at " + resolveCsvPath());
         } catch (IOException e) {
             System.err.println("Error saving CSV: " + e.getMessage());
             e.printStackTrace();
