@@ -86,7 +86,7 @@ Expected: a JSON array (possibly empty) or an HTTP 200 response.
 ```bash
 # from repo root
 python3 -m venv venv
-source venv/bin/activate
+.\venv\bin\activate
 pip install -r frontend/requirements.txt
 ```
 
