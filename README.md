@@ -3,12 +3,12 @@
 ## Overview
 
 This repository contains a catalog management system used throughout
-**CSCI 2040U – Software Design and Analysis** for **multiple labs and exercises**.
+**CSCI 2040U – Software Design and Analysis** as a **shared codebase for all labs**.
 
-The project began as a rapid prototype in **Lab 2**, and is extended, refactored,
-and reused in subsequent labs to demonstrate core software design concepts,
-including separation of concerns, modularity, client–server interaction, and
-incremental development.
+The repository provides a consistent project structure and tooling that is reused
+across multiple lab assignments. Each lab builds on the same foundation to
+illustrate software design concepts such as separation of concerns,
+client–server interaction, modularity, refactoring, and incremental development.
 
 The system consists of:
 
@@ -52,15 +52,16 @@ The system consists of:
 
 ## Purpose (Course Context)
 
-This repository is used across **multiple labs**, including but not limited to:
+This repository serves as a **shared codebase for all labs** in **CSCI 2040U – Software Design and Analysis**.
 
-* Rapid prototyping
-* API design
-* Frontend–backend integration
-* Refactoring and design improvement
-* Testing and maintainability exercises
+The structure, tooling, and core architecture remain consistent across labs. Individual labs may:
 
-Each lab may build on, modify, or extend the existing codebase.
+* add new features
+* refactor existing components
+* introduce testing or design improvements
+* modify the frontend or backend behavior
+
+**Lab 2** uses this repository as an initial rapid prototyping exercise. Later labs build directly on the same structure rather than starting from scratch.
 
 ---
 
@@ -188,12 +189,3 @@ For predictable behavior, start the backend from the `backend/` directory.
   ```
 
 ---
-
-## Optional Improvements
-
-This repo can be extended with:
-
-* a script to start backend + frontend together
-* a `Makefile` for common commands
-* cleanup of unused Python dependencies
-* additional tests and validation layers
